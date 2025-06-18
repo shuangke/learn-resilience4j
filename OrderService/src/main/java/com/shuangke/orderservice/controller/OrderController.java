@@ -17,6 +17,6 @@ public class OrderController {
         String stockStatus = stockFeign.getStockStatus(productName);
 
         // Return the stock status as part of the order response
-        return "Order placed for " + productName + ". Stock status: " + stockStatus;
+        return "Order Service:" + stockStatus;
     }
 }

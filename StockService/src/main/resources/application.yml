@@ -1,8 +1,10 @@
 server:
   port: 8002
+
 spring:
   application:
     name: stock-service
+
 eureka:
   client:
     service-url:
@@ -10,3 +12,11 @@ eureka:
   instance:
     prefer-ip-address: true
     instance-id: ${spring.application.name}:${spring.application.instance_id:${random.value}}
+
+resilience4j:
+  ratelimiter:
+    instances:
+      queryStockLimiter: # must match the name in the code
+        limit-for-period: 3 # 3 requests per period
+        limit-refresh-period: 10s # 10 seconds, the period for rate limiting
+        timeout-duration: 2s # Wait up to 2 seconds for a permit if the rate limit is reached; if a new period starts within these 2 seconds, the request will be allowed.
