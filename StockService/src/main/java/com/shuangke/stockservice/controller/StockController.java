@@ -11,6 +11,9 @@ public class StockController {
 
     @GetMapping("/status")
     public String getStockStatus(@RequestParam String productName) {//must use @RequestParam to bind the request parameter
+       if (productName.equals("iphone")) {
+           throw new RuntimeException("The StockService is down");
+       }
         return "Stock service is running";
     }
 }

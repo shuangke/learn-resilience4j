@@ -1,8 +1,10 @@
 server:
   port: 8001
+
 spring:
   application:
     name: order-service
+
 eureka:
   client:
     service-url:
@@ -10,3 +12,22 @@ eureka:
   instance:
     instance-id: ${spring.application.name}:${spring.application.instance_id:${random.value}}
     prefer-ip-address: true
+
+resilience4j:
+  circuitbreaker:
+    configs:
+        default:
+            failureRateThreshold: 30
+            sliding-window-type: COUNT_BASED
+            sliding-window-size: 5
+            minimum-number-of-calls: 5
+            waitDurationInOpenState: 3s
+
+    instances:
+      stockServiceCircuitBreaker:
+        slow-call-rate-threshold: 20
+        slow-call-duration-threshold: 2000ms
+        sliding-window-type: COUNT_BASED
+        sliding-window-size: 1
+        minimum-number-of-calls: 1
+        wait-duration-in-open-state: 3s
